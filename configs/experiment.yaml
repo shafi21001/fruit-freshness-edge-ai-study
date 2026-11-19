@@ -1,1 +1,50 @@
 
+project:
+  name: fruit-freshness-edge-ai-study
+  version: 0.1.0
+  task: multi-fruit-quality-classification
+  status: dataset_selection
+
+reproducibility:
+  random_seed: 42
+  deterministic: true
+
+data:
+  dataset_id: pending
+  image_size: 224
+  split_strategy: pending
+  prevent_duplicate_leakage: true
+  preserve_original_images: true
+
+models:
+  candidates:
+    - mobilenet_v3_large
+    - efficientnet_b0
+
+training:
+  epochs: 50
+  batch_size: 32
+  optimizer: adamw
+  learning_rate: 0.001
+  early_stopping_patience: 10
+
+evaluation:
+  metrics:
+    - accuracy
+    - macro_precision
+    - macro_recall
+    - macro_f1
+    - balanced_accuracy
+    - quadratic_weighted_kappa
+    - mean_absolute_grade_error
+
+quantization:
+  enabled: false
+  method: post_training_int8
+  calibration_split: training_only
+
+deployment:
+  target_1: Nothing Phone 3a
+  target_2: Android smartphone with Dimensity 810
+  runtime: pending
+
