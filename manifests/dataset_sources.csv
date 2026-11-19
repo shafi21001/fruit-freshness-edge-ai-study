@@ -1,1 +1,7 @@
 
+dataset_id,dataset_name,source_url,publication,license,reported_images,reported_classes,role,status,verification_notes
+DS01,AFruitDB,https://data.mendeley.com/,Data in Brief 2025,CC BY 4.0,3167,18,Primary candidate,Pending archive audit,Verify original versus processed images
+DS02,Bangladeshi Fruit Grade Classification,https://data.mendeley.com/,Mendeley Data 2025,CC BY 4.0,3757,21,Primary candidate,Pending archive audit,Verify relationship with AFruitDB
+DS03,AgriFreshNET,https://data.mendeley.com/,Mendeley Data 2026,CC BY 4.0,14500,24,Alternative candidate,Pending archive audit,Verify raw archive and class taxonomy
+DS04,Fresh and Rotten Fruits Dataset,https://data.mendeley.com/,Data in Brief 2022,CC BY 4.0,3200,16,External evaluation candidate,Pending archive audit,Verify fruit overlap and label compatibility
+
