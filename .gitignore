@@ -221,3 +221,68 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+
+
+# ==========================================
+# RESEARCH DATA — NEVER COMMIT RAW DATASETS
+# ==========================================
+
+data/raw/
+data/interim/
+data/processed/
+
+# Dataset archives
+*.zip
+*.rar
+*.7z
+*.tar
+*.tar.gz
+
+# ==========================================
+# MODEL CHECKPOINTS AND EXPORTED MODELS
+# ==========================================
+
+*.pt
+*.pth
+*.ckpt
+*.h5
+*.keras
+*.tflite
+*.onnx
+*.pb
+
+# Training outputs
+runs/
+outputs/
+wandb/
+mlruns/
+lightning_logs/
+
+# ==========================================
+# EXPERIMENTAL OUTPUTS
+# ==========================================
+
+*.log
+*.tmp
+*.temp
+
+# ==========================================
+# SECRETS AND CREDENTIALS
+# ==========================================
+
+.env
+.env.*
+!.env.example
+
+*service-account*.json
+credentials.json
+secrets.json
+
+# Google Colab
+.ipynb_checkpoints/
+
+# Local development
+.DS_Store
+Thumbs.db
+
