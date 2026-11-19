@@ -1,7 +1,6 @@
 
-dataset_id,dataset_name,source_url,publication,license,reported_images,reported_classes,role,status,verification_notes
-DS01,AFruitDB,https://data.mendeley.com/,Data in Brief 2025,CC BY 4.0,3167,18,Primary candidate,Pending archive audit,Verify original versus processed images
-DS02,Bangladeshi Fruit Grade Classification,https://data.mendeley.com/,Mendeley Data 2025,CC BY 4.0,3757,21,Primary candidate,Pending archive audit,Verify relationship with AFruitDB
-DS03,AgriFreshNET,https://data.mendeley.com/,Mendeley Data 2026,CC BY 4.0,14500,24,Alternative candidate,Pending archive audit,Verify raw archive and class taxonomy
-DS04,Fresh and Rotten Fruits Dataset,https://data.mendeley.com/,Data in Brief 2022,CC BY 4.0,3200,16,External evaluation candidate,Pending archive audit,Verify fruit overlap and label compatibility
-
+dataset_id,dataset_name,dataset_record_url,publication_reference,publication_url,license,reported_images,fruit_types,quality_levels,fruit_grade_combinations,role,status,audit_notes
+DS01,AFruitDB,https://data.mendeley.com/datasets/bz65dz2pbj/1,Data in Brief 2025,https://doi.org/10.1016/j.dib.2025.111380,CC BY 4.0,3167,6,3,18,Primary candidate,Pending archive audit,Check original versus processed images and possible overlap with DS02
+DS02,Bangladeshi Fruit Grade Classification,https://data.mendeley.com/datasets/bp9fczshw5/1,Mendeley Data 2025,,CC BY 4.0,3757,7,3,21,Expanded candidate,Pending archive audit,Investigate relationship and image overlap with DS01
+DS03,AgriFreshNET,https://data.mendeley.com/datasets/42m5tb7yv9/1,Mendeley Data 2026,,CC BY 4.0,14500,Unknown,3,24,Alternative candidate,Pending archive audit,Contains fruits and vegetables; verify raw and processed archives
+DS04,Fresh and Rotten Fruits Dataset,https://data.mendeley.com/datasets/bdd69gyhv8/1,Data in Brief 2022,https://doi.org/10.1016/j.dib.2022.108552,CC BY 4.0,3200,8,2,16,External evaluation candidate,Pending archive audit,Use original images only; investigate shared fruit species and binary label compatibility
