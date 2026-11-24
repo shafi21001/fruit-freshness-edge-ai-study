@@ -1,0 +1,19 @@
+true_class,predicted_class,misclassified_images,true_class_support,percentage_of_true_class
+Banana_2nd grade,Banana_1st grade,24,71,33.80281690140845
+Tomatoes_2nd grade,Tomatoes_1st grade,5,34,14.705882352941178
+Mango_2nd grade,Mango_1st grade,5,37,13.513513513513514
+Banana_1st grade,Banana_2nd grade,5,73,6.8493150684931505
+Apple_2nd grade,Apple_1st grade,4,26,15.384615384615385
+Burmese_grape_2nd grade,Burmese_grape_1st grade,4,47,8.51063829787234
+Burmese_grape_2nd grade,Burmese_grape_3rd grade,4,47,8.51063829787234
+Tomatoes_3rd grade,Tomatoes_2nd grade,3,19,15.789473684210526
+Mango_1st grade,Mango_2nd grade,3,37,8.108108108108109
+Mango_3rd grade,Mango_1st grade,2,18,11.11111111111111
+Tomatoes_2nd grade,Tomatoes_3rd grade,2,34,5.88235294117647
+Burmese_grape_1st grade,Burmese_grape_2nd grade,2,95,2.1052631578947367
+Apple_3rd grade,Apple_2nd grade,1,16,6.25
+Tomatoes_3rd grade,Tomatoes_1st grade,1,19,5.263157894736842
+Papayas_2nd grade,Papayas_1st grade,1,22,4.545454545454546
+Papayas_1st grade,Papayas_2nd grade,1,23,4.3478260869565215
+Apple_2nd grade,Apple_3rd grade,1,26,3.8461538461538463
+Mango_2nd grade,Mango_3rd grade,1,37,2.7027027027027026
