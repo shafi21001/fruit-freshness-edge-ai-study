@@ -1,50 +1,129 @@
-
 project:
   name: fruit-freshness-edge-ai-study
-  version: 0.1.0
+  version: 0.2.0
   task: multi-fruit-quality-classification
-  status: dataset_selection
+  status: baseline_training_completed_validation_analysis_completed
 
 reproducibility:
-  random_seed: 42
+  random_seed: 20261119
   deterministic: true
+  split_seed: 20261119
+  split_strategy: group_aware_stratified
+  split_ratios:
+    train: 0.70
+    validation: 0.15
+    test: 0.15
+  test_split_sealed: true
+  test_split_accessed: false
 
 data:
-  dataset_id: pending
+  dataset_id: two_reconciled_fruit_grade_datasets
+  total_records: 6908
+  unique_sha256_images: 4862
+  duplicate_aware_groups: 4765
+  num_classes: 21
   image_size: 224
-  split_strategy: pending
   prevent_duplicate_leakage: true
   preserve_original_images: true
+  label_source: dataset_provided
+  label_validity_independently_verified: false
+
+  splits:
+    train:
+      records: 4835
+      unique_images: 3401
+      groups: 3335
+    validation:
+      records: 1038
+      unique_images: 732
+      groups: 715
+    test:
+      records: 1035
+      unique_images: 729
+      groups: 715
 
 models:
-  candidates:
-    - mobilenet_v3_large
-    - efficientnet_b0
+  baseline:
+    architecture: mobilenet_v3_small
+    pretrained_weights: IMAGENET1K_V1
+    num_classes: 21
+    trainable_parameters: 1539381
+    precision: FP32
 
 training:
-  epochs: 50
-  batch_size: 32
+  status: completed
   optimizer: adamw
-  learning_rate: 0.001
-  early_stopping_patience: 10
+  learning_rate: 0.0001
+  weight_decay: 0.0001
+  batch_size: 32
+  maximum_epochs: 15
+  completed_epoch: 14
+  best_checkpoint_epoch: 11
+  early_stopping_patience: 3
+  loss: cross_entropy
+  class_weighting: none
+  selection_metric: validation_macro_f1
 
-evaluation:
-  metrics:
-    - accuracy
-    - macro_precision
-    - macro_recall
-    - macro_f1
-    - balanced_accuracy
-    - quadratic_weighted_kappa
-    - mean_absolute_grade_error
+  augmentation:
+    horizontal_flip_probability: 0.5
+    rotation_degrees: 10
+
+validation:
+  status: completed
+  checkpoint_epoch: 11
+  records_evaluated: 732
+  accuracy: 0.905738
+  macro_precision: 0.924336
+  macro_recall: 0.918462
+  macro_f1: 0.918123
+  weighted_f1: 0.904345
+  correct_predictions: 663
+  incorrect_predictions: 69
+  independent_final_evaluation: false
+
+explainability:
+  status: sample_selection_completed_gradcam_pending
+  method_planned: grad_cam
+  selected_validation_samples: 34
+  representative_correct_cases: 21
+  high_confidence_failure_cases: 13
+  selection_predefined: true
 
 quantization:
+  status: planned
   enabled: false
   method: post_training_int8
   calibration_split: training_only
 
 deployment:
+  status: planned
   target_1: Nothing Phone 3a
   target_2: Android smartphone with Dimensity 810
   runtime: pending
+  latency_benchmark: pending
+  memory_benchmark: pending
+  model_size_benchmark: pending
 
+evaluation:
+  status: validation_analysis_completed_test_pending
+  metrics:
+    - accuracy
+    - macro_precision
+    - macro_recall
+    - macro_f1
+    - weighted_f1
+    - per_class_precision
+    - per_class_recall
+    - per_class_f1
+    - confusion_matrix
+    - normalized_confusion_matrix
+    - latency
+    - model_size
+    - memory_usage
+
+integrity:
+  evidence_manifest_created: true
+  evidence_manifest_entries: 25
+  evidence_hashes_verified: 25
+  evidence_missing_files: 0
+  evidence_hash_mismatches: 0
