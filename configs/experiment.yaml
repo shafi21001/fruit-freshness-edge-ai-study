@@ -1,8 +1,8 @@
 project:
   name: fruit-freshness-edge-ai-study
-  version: 0.2.0
+  version: 0.3.0
   task: multi-fruit-quality-classification
-  status: baseline_training_completed_validation_analysis_completed
+  status: baseline_validation_xai_int8_export_completed
 
 reproducibility:
   random_seed: 20261119
@@ -82,30 +82,71 @@ validation:
   independent_final_evaluation: false
 
 explainability:
-  status: sample_selection_completed_gradcam_pending
-  method_planned: grad_cam
+  status: validation_gradcam_completed_qualitative_review_completed
+  method: grad_cam
+  target_layer: model.features[12]
   selected_validation_samples: 34
   representative_correct_cases: 21
   high_confidence_failure_cases: 13
   selection_predefined: true
+  all_21_classes_represented: true
+  qualitative_visual_review_completed: true
+  quantitative_faithfulness_evaluation: pending
+  explanation_consistency_evaluation: pending
+  comparator_method: pending
+  test_set_xai: pending
 
 quantization:
-  status: planned
-  enabled: false
-  method: post_training_int8
+  status: int8_pt2e_calibration_conversion_completed
+  enabled: true
+  method: post_training_static_int8
+  framework: torchao_pt2e
+  quantizer: xnnpack
   calibration_split: training_only
+  calibration_images: 630
+  calibration_images_per_class: 30
+  calibration_num_classes: 21
+  calibration_seed: 20261119
+  calibration_integrity_verified: true
+  calibration_hash_mismatches: 0
+  retraining_performed: false
+  validation_used_for_calibration: false
+  test_used_for_calibration: false
+  converted_graph_nodes: 521
+  quantization_related_nodes_inspected: 287
+  quantized_accuracy_evaluation: pending
+  fp32_int8_comparison: pending
 
 deployment:
-  status: planned
+  status: executorch_int8_export_and_runtime_smoke_test_completed
   target_1: Nothing Phone 3a
   target_2: Android smartphone with Dimensity 810
-  runtime: pending
-  latency_benchmark: pending
+  export_format: executorch_pte
+  backend: xnnpack
+  fp32_export:
+    filename: baseline_fp32_exported_program.pt2
+    size_bytes: 7430390
+  int8_export:
+    filename: mobilenetv3_small_int8_xnnpack.pte
+    size_bytes: 1653204
+    runtime_load_verified: true
+    runtime_inference_verified: true
+    synthetic_output_shape:
+      - 1
+      - 21
+    output_finite: true
+  export_size_reduction_percent: 77.75
+  physical_device_latency_benchmark: pending
   memory_benchmark: pending
-  model_size_benchmark: pending
+  energy_benchmark: pending
+  android_app_integration: pending
 
 evaluation:
-  status: validation_analysis_completed_test_pending
+  status: baseline_validation_completed_int8_runtime_verified_test_pending
+  test_split_sealed: true
+  test_split_accessed: false
+  fp32_int8_accuracy_comparison: pending
+  independent_test_evaluation: pending
   metrics:
     - accuracy
     - macro_precision
@@ -117,9 +158,10 @@ evaluation:
     - per_class_f1
     - confusion_matrix
     - normalized_confusion_matrix
-    - latency
     - model_size
+    - latency
     - memory_usage
+    - energy_consumption
 
 integrity:
   evidence_manifest_created: true
