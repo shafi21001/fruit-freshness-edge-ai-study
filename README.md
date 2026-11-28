@@ -8,6 +8,10 @@ The task is a dataset-defined 21-class classification problem covering seven fru
 
 The study prioritizes dataset integrity, reproducible evaluation, lightweight model design, transparent error analysis, and practical mobile deployment.
 
+## Research and Deployment Pipeline
+
+![Fruit Freshness Research and Deployment Pipeline](reports/figures/deployment/fruit_freshness_research_deployment_pipeline.png)
+
 ## Research Status
 
 | Component | Status |
