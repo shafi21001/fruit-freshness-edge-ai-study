@@ -8,6 +8,37 @@ The task is a dataset-defined 21-class classification problem covering seven fru
 
 The study prioritizes dataset integrity, reproducible evaluation, lightweight model design, transparent error analysis, and practical mobile deployment.
 
+## Research Status
+
+| Component | Status |
+|---|---|
+| Dataset reconciliation and integrity audit | Completed |
+| Duplicate-aware group construction | Completed |
+| Group-aware split and leakage audit | Completed |
+| FP32 baseline training | Completed |
+| Baseline validation analysis | Completed |
+| Validation Grad-CAM generation | Completed |
+| Qualitative Grad-CAM review | Completed |
+| FP32 export | Completed |
+| Train-only INT8 calibration | Completed |
+| PT2E INT8 conversion | Completed |
+| ExecuTorch/XNNPACK export | Completed |
+| INT8 runtime smoke test | Completed |
+| Artifact integrity and size audit | Completed |
+| FP32 versus INT8 accuracy comparison | Pending |
+| Sealed test evaluation | Pending |
+| Android physical-device benchmarking | Pending |
+| Android application integration | Pending |
+| Quantitative XAI evaluation | Pending |
+
+**Current deployment artifact:** `mobilenetv3_small_int8_xnnpack.pte`
+
+**Current exported artifact size:** 1,653,204 bytes
+
+**Export file-size reduction relative to FP32:** 77.75%
+
+These deployment results represent successful export and runtime execution verification only. Accuracy and real-device performance claims remain pending.
+
 ## Fruit Categories
 
 - Apple
@@ -124,17 +155,66 @@ Validation confusion matrices, normalized confusion matrices, class-wise metrics
 
 ## Explainability
 
-A predefined validation explainability sample has been selected:
+A predefined validation explainability subset was constructed to support qualitative inspection of model predictions and activation patterns.
 
-- 34 total samples
-- 21 representative correct predictions
+The subset contains 34 validation samples:
+- 21 representative correct predictions, selected to cover all 21 classes
 - 13 high-confidence incorrect predictions
 
-The selection includes class-balanced representative correct cases and selected high-confidence errors. All selected images were verified as existing and readable.
+Grad-CAM was implemented using the trained MobileNetV3-Small baseline, with the target layer selected from the final convolutional feature block (`model.features[12]`). Predicted-class Grad-CAM maps were generated for the selected samples.
 
-Grad-CAM analysis is the next explainability stage. The planned analysis will examine model attention for both correct and incorrect predictions.
+The generated outputs include individual heatmaps, numerical heatmap arrays, a result index, an audit summary, and a contact sheet. The visual results were reviewed qualitatively.
 
-Full-image explanations are intended to be primary. Any crop-based analysis will be separately identified and disclosed.
+The heatmaps generally emphasized fruit regions and surrounding visual context, although activation patterns varied across samples. Some high-confidence errors were observed, including a tomato-grade misclassification where a `Tomatoes_2nd` sample was predicted as `Tomatoes_3rd` with confidence 0.9982.
+
+Grad-CAM is treated as a qualitative interpretability tool. These visualizations do not establish causal explanations, grade-specific feature utilization, defect localization accuracy, or explanation faithfulness.
+
+Quantitative explainability evaluation, explanation consistency analysis, and comparison with additional explainability methods remain pending.
+
+The validation explainability subset was used only for qualitative inspection. The held-out test partition remains sealed.
+
+## Post-Training Quantization and Edge Export
+
+A post-training INT8 quantization and deployment export workflow was implemented using the preserved MobileNetV3-Small FP32 baseline.
+
+### Calibration
+
+A class-balanced calibration subset of 630 training images was selected, comprising 30 images per class across the 21 classification classes. The calibration manifest and image integrity were verified before calibration.
+
+Calibration was performed exclusively on training images. Validation and test images were not used for quantization calibration.
+
+### Quantization
+
+The PyTorch 2 Export (PT2E) workflow was used with the XNNPACK quantizer and a symmetric quantization configuration. The exported FP32 model was prepared, calibrated using the 630-image training subset, and converted to the quantized graph.
+
+No model retraining or gradient updates were performed during calibration or conversion.
+
+### ExecuTorch Export
+
+The converted INT8 model was exported to ExecuTorch using the Edge conversion and XNNPACK partitioning workflow. The resulting `.pte` artifact was successfully generated.
+
+### Artifact Size
+
+| Artifact | Size (bytes) |
+|---|---:|
+| FP32 ExportedProgram | 7,430,390 |
+| INT8 ExecuTorch PTE | 1,653,204 |
+
+The INT8 export artifact was 77.75% smaller than the FP32 export artifact by file size.
+
+This is an export-size comparison only. It does not establish equivalent accuracy, improved inference speed, lower energy consumption, or reduced memory use on physical Android hardware.
+
+### Runtime Smoke Test
+
+The saved INT8 ExecuTorch artifact was successfully loaded by the ExecuTorch runtime. Its `forward` method was loaded and inference was executed using a synthetic input tensor with shape `(1, 3, 224, 224)`.
+
+The output tensor had shape `(1, 21)` and contained finite values.
+
+This verifies basic artifact loading and inference execution. It does not constitute an accuracy evaluation or physical-device benchmark.
+
+### Deployment Status
+
+The INT8 ExecuTorch export and runtime smoke test are completed. Quantized accuracy comparison, final held-out test evaluation, physical Android benchmarking, and application integration remain pending.
 
 ## Experiment Integrity
 
@@ -149,18 +229,22 @@ The evidence integrity verification passed:
 
 This confirms that the fingerprinted artifacts matched the evidence manifest at the time of verification. It does not independently establish full computational reproducibility.
 
-## Planned Work
+## Planned and Pending Work
 
-1. Grad-CAM explainability analysis
-2. Review of dataset grade-label validity and provenance
-3. Further near-duplicate review where necessary
-4. Lightweight model comparison under a matched protocol
-5. INT8 post-training quantization
-6. Quantized-model validation and performance comparison
-7. Independent test-set evaluation following a finalized protocol
-8. Android/mobile edge-device benchmarking
-9. Latency, memory, model-size, and runtime reporting
-10. Final research reporting
+1. Quantized-model validation analysis
+2. Matched FP32 versus INT8 comparison using consistent preprocessing and evaluation metrics
+3. Quantization accuracy degradation analysis
+4. Per-class performance comparison
+5. Final evaluation protocol review before opening the sealed test partition
+6. Final independent test-set evaluation
+7. Physical Android-device latency benchmarking
+8. Peak memory and energy measurements where feasible
+9. Android application integration
+10. Quantitative explainability faithfulness and consistency analysis
+11. Comparison with an additional explainability method
+12. Final research reporting and artifact documentation
+
+The held-out test partition remains sealed and has not been accessed.
 
 ## Research Limitations
 
