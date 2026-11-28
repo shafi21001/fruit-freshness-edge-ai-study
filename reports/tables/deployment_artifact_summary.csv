@@ -1,0 +1,3 @@
+artifact,format,size_bytes,size_mb,sha256,verification_status
+baseline_fp32_exported_program.pt2,PyTorch ExportedProgram,7430390,7.087,60ebf8c481d6260791cecbe4b04678b4f18b65a788e437f6e7eca43e94c158a5,Reload and synthetic equivalence check passed
+mobilenetv3_small_int8_xnnpack.pte,ExecuTorch PTE INT8,1653204,1.577,333f73e5ebef78e3bb8055c783f848e78b786694e268bdf336d76e7bce0e208d,Runtime loading and synthetic inference smoke test passed
